@@ -1,0 +1,139 @@
+// by SIVENKOV
+#include <iostream> 
+#include <clocale> 
+#include <ctime> 
+
+#define MAX_RAND 255 
+#define MIN_RAND 0 
+#define MIN_FRACTION_RAND 0 
+#define MAX_FRACTION_RAND 9999999 
+#define DENOMINATOR_RAND 10000000 
+#define MAX_ARR_SIZE 1000 
+
+using namespace std; 
+
+template <typename X> void inputArr(X arr, int &size); 
+template <typename X> void printArr(X arr, const int size, const char delim = '\n'); 
+template <typename X> void initArr(X arr, int &size); 
+template <typename X> void findMin(X arr[], const int size, X &min); 
+template <typename X> void findMax(X arr[], const int size, X &max);
+
+int main() { 
+	srand(time(NULL)); 
+	setlocale(LC_ALL, "Ru"); 
+
+	double arr[MAX_ARR_SIZE]; 
+	int size; 
+	double res; 
+
+	inputArr(arr, size); 
+	printArr(arr, size); 
+	initArr(arr, size); 
+	printArr(arr, size); 
+
+	findMin(arr, size, res); 
+	cout <<"Минимальный элемент массива: "<<res<<'\n'; 
+
+	findMax(arr, size, res); 
+	cout <<"Максимальный элемент массива: "<<res<<'\n'; 
+
+	system("pause"); 
+	return 0; 
+} 
+
+template <typename X> void inputArr(X arr, int &size) { 
+	cout « "Введите количество элементов\n"; 
+	cin » size; 
+	cout « "Введите элементы массива\n"; 
+	for (int i = 0; i < size; i++) { 
+		cin » arr[i]; 
+	} 
+	cout « "Все элементы массива введены\n\n"; 
+
+} 
+
+template <typename X> void printArr(X arr, const int size, const char delim) { 
+	for (int i = 0; i < size; i++) 
+		cout « arr[i] « delim; 
+	cout « '\n'; 
+} 
+
+template <typename X> void initArr(X arr, int &size) { 
+	cout « "Введите количество элементов\n"; 
+	cin » size; 
+	cout « "Инициализация массива случайными числами в диапазоне [" « MIN_RAND « ", " « MAX_RAND « "]\n"; 
+	for (int i = 0; i < size; i++) { 
+		int r_frac = rand() % (MAX_FRACTION_RAND - MIN_FRACTION_RAND + 1); 
+		double tmp = (r_frac + MIN_FRACTION_RAND); 
+		tmp /= DENOMINATOR_RAND; 
+		arr[i] = rand() % (MAX_RAND - MIN_RAND + 1) + MIN_RAND; 
+		if (arr[i] != MAX_RAND) arr[i] += tmp; 
+	} 
+	cout « "Инициализация завершена\n\n"; 
+
+} 
+
+template <typename X> void findMin(X arr[], const int size, X &min) { 
+	if (!size) { 
+		cout « "Массив пуст!\n\n"; 
+		return; 
+	} 
+	min = arr[0]; 
+	for (int i = 1; i < size; i++) { 
+		if (arr[i] < min) min = arr[i]; 
+	} 
+} 
+
+template <typename X> void findMax(X arr[], const int size, X &max) { 
+	if (!size) { 
+		cout « "Массив пуст!\n\n"; 
+		return; 
+	} 
+	max = arr[0]; 
+	for (int i = 1; i < size; i++) { 
+		if (arr[i] > max) max = arr[i]; 
+	} 
+}
+
+/*****************
+
+Внутри main находится только объявление переменных. Инициализация массива - отдельная функция, вывод массива - отдельная функция, 
+поиск максимума,минимума и т.п. - отдельная функция. 
+Вызов этих функций - внутри main.
+1) Напишите игру в быки-коровы между человеком и компьютером. Человек вводит числа, компьютер выдает подсказки до тех пор, 
+пока не угадано загаданное число.
+2) отладить и проверить что все нормально в 
+printArray,inputArray,initArray,findMin, findMax
+reverse (в новый массив записываем значения в "обратном порядке" (начиная от последнего элемента и
+заканчивая первым)
+3) написать функции 
+sumArray - сумма всех элементов в массиве А.
+positiveNegativeArray - Вывести кол-во положительных и количество отрицательных элементов в массиве А.(Протестировать, что программа работает когда все элементы одного знака!)
+howMuch - Вывести кол-во элементов в массиве А, которые совпадают с некоторым числом number.
+
+halfArray - "Разделить" массив А на два массива: первую половину - в массив В, остальные - в
+С. (Внимательно рассмотреть случай когда N нечетное!)
+divArray - "Разделить" массив А на два массива: положительные записать в массив В, отрицательные -
+в С.
+
+changeArray После первого нулевого элемента в массиве (после минимального элемента, перед
+максимальным элементом) заменить значение на число 999. Что делать в случае, когда мы выходим за границы массива решает программист (т.е. Вы).
+
+howManyMaxMin Вывести кол-во максимальных и количество минимальных элементов в массиве А.
+Этот поиск должен выполняться за один проход по массиву! (Проверить, что программа работает на массиве {2,3,4,4,4,5,5,2,5}. В этом массиве максимум встречается 3 раза и минимум 2 раза!)
+
+4) Объявить массив А вещественных чисел размера N (число N объявить как константу).
+Проинициализировать значения элементов массива случайными числами из промежутка
+от -50 до 50. "ПсевдоОтсортировать" массив А (т.е. заполнить вспомогательный массив В).
+Положительные значения массива А переместить в начало В, отрицательные
+переместить в конец массива В.
+(Проверить потом, что программа работает когда все элементы одного знака!)
+
+5) ***. Написать программу "циклической перестановки элементов массива А" на 1
+элемент влево (потом на 1 элементов вправо). 
+Т.е. 1-й элемент А становится 2-ым в новом массиве В, 2-й становится 3-м и
+так далее. Если достигаем конца массива В, то заполняем начиная с номера 1!
+Требую от вас придумать некую формулу изменения индексов, чтобы обойтись одним циклом по
+массиву А. Думайте про операцию mod в алгебре ;-)
+
+*****************/
