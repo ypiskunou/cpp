@@ -215,6 +215,16 @@ void printArray(T a[], int n, char delim='\n')
 	}
 }
 
+void subStr(char s[] , char rez[], int begin, int kol)
+{
+	int j=0;
+	for(int i=begin; (i<begin+kol)&&(s[i]!='\0'); i++, j++)
+	{
+		rez[j]=s[i];
+	}
+	rez[j+1]='\0';
+}
+
 int main()
 {
 	setlocale(LC_ALL, "Ru");
@@ -234,6 +244,11 @@ int main()
 
 		printArray(borders, N, ' ');
 
+		cout<<'\n';
+		char rez[N]={};//WHY IF NOT ININTIALIZED IT GIVES M AFTER REZ???
+		subStr(s, rez, 5, 25);
+		printString(rez);
+
 		char q=0;
 		cout<<"\nEnter q - to quit: ";
 		cin>>q;
@@ -245,6 +260,11 @@ int main()
 }
 
 /*************
+1)### собственные функции для работы с одномерными "массивами символов"
+
+void subStr(char[] , char[], int begin, int kol); // Функция subStr() выделяет из строки s, начиная с символа begin,  kol символов и записывает в rez.
+void delStr(char [], int begin, int kol); // Функция delStr() удаляет из строки  s,  начиная с символа begin,  kol символов.
+void insStr(char [] ,int begin, char* ); // Функция insStr() Вставить в строку s1 с адреса begin подстроку s2.
 
 Создать код (для желающих оформить его как функции), который выполняет действия, аналогичные функциям из заголовочного файла <string.h> (<cstring>):
 size_t strlen(char *s)
